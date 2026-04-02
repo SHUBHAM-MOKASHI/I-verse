@@ -16,29 +16,29 @@ const io = new Server(server, {
 });
 
 const WORDS = [
+  // Indian context - Foods & Drinks
+  "Samosa", "Jalebi", "Biryani", "Lassi", "Pani Puri", "Gol Gappa", "Chai", "Vada Pav", "Pav Bhaji", "Gulab Jamun", "Dosa", "Idli", "Butter Chicken", "Rasgulla", "Kulfi", "Paan", "Momo", "Dal Makhani", "Naan", "Roti", "Tikka", "Kachori", "Bhel Puri", "Papdi Chaat", "Ladoo", "Barfi", "Misal Pav", "Dhokla", "Chole Bhature", "Kebabs", "Shahi Tukda", "Kheer",
+  
+  // Desi Culture & Lifestyle
+  "Rickshaw", "Auto", "Traffic Jam", "Bazaar", "Mandir", "Masjid", "Gurudwara", "Bangle", "Saree", "Kurta", "Dhoti", "Sherwani", "Jhumka", "Bindi", "Henna", "Mehndi", "Dhol", "Tabla", "Sitar", "Bonsai", "Yoga", "Ayurveda", "Cricket", "Ludo", "Snake and Ladder", "Kabbadi", "Gully", "Nukkad", "Chai Wala", "Press Wala", "Doodh Wala", "Rickshawala", "Baraat", "Shaadi",
+  
+  // Bollywood & Entertainment
+  "Item Song", "Stunt Man", "Hero", "Heroine", "Villain", "Extra", "Cameraman", "Director", "Action", "Cut", "Superstar", "Big B", "SRK Pose", "Dabangg", "Sholay", "Gabbar Singh", "Mogambo", "Anjali", "Circuit", "Munna Bhai", "Bahu", "Sanskari", "Melodrama", "Dance Sequence", "Award Show", "Red Carpet", "Paparazzi",
+  
   // Gen Z & Internet Slang
-  "Rizz", "Delulu", "Ghosting", "Main Character", "Red Flag", "Situationship", "Slay", "FOMO", "No Cap", "Sus", "Flex", "Glow Up", "Simp", "Stan", "Tea Spilling", "Vibe Check", "Baddie", "Gucci", "Era", "Soft Launch", "Hard Launch", "Cringe", "Drafts", "POV", "Rent Free", "IYKYK", "Manifest", "Lowkey", "Highkey", "Ate", "Left No Notes", "Salty", "Touch Grass", "Side Eye", "Cap", "Bet",
-  
-  // Sexy & Flirty (SFW for App)
-  "Love Bite", "Fishnet", "Handcuffs", "Blindfold", "Pole Dance", "Lace", "Abs", "French Kiss", "Backless", "Stilettos", "Choker", "Tattoo", "Bathtub", "Massage", "Silk Sheets", "Lipstick Mark", "Wink", "Slow Dance", "Shower", "Muscles", "Curves", "Perfume", "Boudoir", "Midnight", "Candlelight", "Rose Petals",
-  
-  // Desi & Bollywood
-  "Gol Gappa", "Chai Sutta", "Rickshaw", "Sanskari", "Jugaad", "Item Song", "Baraat", "Auto Driver", "Gulab Jamun", "Saree", "Jhumka", "Mehndi", "Dhol", "Vada Pav", "Nagin Dance", "Sholay", "Gabbar", "SRK Pose", "Munni Badnaam", "Lungi", "Dhobi", "Paan", "Dhaba", "Cutting Chai", "Traffic Jam", "Pani Puri", "Thali", "Bhangra", "Garam Masala", "Kurta", "Taj Mahal",
-  
-  // Fun & Lifestyle
-  "Tinder", "Selfie Stick", "Gym Rat", "Pizza Party", "Hangover", "Netflix and Chill", "Online Shopping", "Work From Home", "Zoom Call", "Influencer", "Starbucks", "iPhone", "Sneakers", "Crypto", "NFT", "Gaming Console", "E-sports", "Foodie", "Travel Blogger", "Yoga", "Zumba",
-  
-  // Objects & Everyday
-  "Pizza", "Burger", "Laptop", "Headphones", "Water Bottle", "Sunglasses", "Backpack", "Mirror", "Hammer", "Bicycle", "Skateboard", "Cactus", "Donut", "Electric Guitar", "Microphone", "Camera", "Dumbbell", "Pizza Box", "Toaster", "Joystick", "Keyboard", "Remote", "Battery", "Whistle", "Coffee Mug", "Toothbrush", "Pillow", "Alarm Clock", "Lipstick", "Nail Polish", "Hair Dryer", "Towel",
+  "Rizz", "Delulu", "Ghosting", "Main Character", "Red Flag", "Situationship", "Slay", "FOMO", "No Cap", "Sus", "Flex", "Glow Up", "Simp", "Stan", "Tea Spilling", "Vibe Check", "Baddie", "Gucci", "Era", "Soft Launch", "Hard Launch", "Cringe", "Drafts", "POV", "Rent Free", "IYKYK", "Manifest", "Lowkey", "Highkey", "Ate", "Left No Notes", "Salty", "Touch Grass", "Side Eye", "Cap", "Bet", "W", "L", "Based", "Sigma", "Chad", "Giga Chad", "Boomer", "Karen",
   
   // Nature & Animals
-  "Black Hole", "Galaxy", "Parallel Universe", "Meteor", "Eclipse", "Tsunami", "Volcano", "Rainbow", "Firefly", "Flamingo", "Panda", "Octopus", "Unicorn", "Dinosaur", "Butterfly", "Sunflower", "Waterfall", "Thunderstorm", "Jungle", "Desert", "Coral Reef",
+  "Elephant", "Tiger", "Peacock", "Cow", "Langur", "Snake", "Cobra", "Mongoose", "Camel", "Gecko", "Butterfly", "Firefly", "Lotus", "Banyan Tree", "Coconut Tree", "Mango", "Himalayas", "Ganga", "Monsoon", "Thunder", "Lightning", "Rainbow", "Cloud", "Sun", "Moon", "Star", "Black Hole", "Galaxy", "Parallel Universe", "Meteor", "Eclipse", "Tsunami", "Volcano", "Waterfall", "Thunderstorm", "Jungle", "Desert", "Coral Reef",
   
-  // Actions & Verbs
-  "Skydiving", "Bungee Jumping", "Moonwalk", "Twerking", "Scuba Diving", "Meditation", "Surfing", "Karaoke", "Gossiping", "Sleepwalking", "Weightlifting", "Shadow Boxing", "Fortune Telling", "Magic Trick", "Crying", "Laughing", "Swimming", "Juggling", "Dancing", "Singing", "Fighting", "Hugging",
-  
+  // Objects & Everyday items
+  "Smartphone", "Laptop", "Headphones", "Camera", "Mirror", "Hammer", "Bicycle", "Skateboard", "Pizza", "Burger", "Donut", "Electric Guitar", "Microphone", "Dumbbell", "Remote", "Battery", "Whistle", "Coffee Mug", "Toothbrush", "Pillow", "Alarm Clock", "Lipstick", "Nail Polish", "Hair Dryer", "Towel", "Umbrella", "Backpack", "Sunglasses", "Water Bottle", "Key", "Wallet", "Spectacles", "Fan", "Ac", "Cooler", "Bulb", "Iron", "Press", "Bucket", "Mug", "Soap", "Shampoo",
+
+  // Actions & Concepts
+  "Skydiving", "Bungee Jumping", "Moonwalk", "Twerking", "Scuba Diving", "Meditation", "Surfing", "Karaoke", "Gossiping", "Sleepwalking", "Weightlifting", "Shadow Boxing", "Fortune Telling", "Magic Trick", "Crying", "Laughing", "Swimming", "Juggling", "Dancing", "Singing", "Fighting", "Hugging", "Thinking", "Dreaming", "Coding", "Cooking", "Driving", "Reading", "Writing", "Sleeping", "Waking Up",
+
   // Abstract & Hard
-  "Gravity", "Deja Vu", "Friendzone", "Karma", "Time Travel", "Infinity", "Silence", "Chaos", "Harmony", "Glitch", "Paradox", "Evolution", "Aura", "Ego", "Nightmare", "Daydream", "Labyrinth", "Mirage", "Echo", "Shadow"
+  "Gravity", "Deja Vu", "Friendzone", "Karma", "Time Travel", "Infinity", "Silence", "Chaos", "Harmony", "Glitch", "Paradox", "Evolution", "Aura", "Ego", "Nightmare", "Daydream", "Labyrinth", "Mirage", "Echo", "Shadow", "Soul", "Spirit", "Mind", "Heart", "Love", "Hate", "Peace", "War", "Life", "Death", "Time", "Space", "Energy", "Light", "Darkness"
 ].map(word => word.toUpperCase());
 
 const rooms = new Map();
@@ -51,8 +51,14 @@ const sanitizeRoom = (room) => {
   return safeRoom;
 };
 
-const getRandomWords = (count) => {
-  const shuffled = [...WORDS].sort(() => 0.5 - Math.random());
+const getRandomWords = (count, usedWords = []) => {
+  // Filter out words already used in this room
+  let available = WORDS.filter(w => !usedWords.includes(w));
+  
+  // If we have very few words left, just use the whole pool to avoid errors
+  if (available.length < count) available = WORDS;
+
+  const shuffled = [...available].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);
 };
 
@@ -111,7 +117,7 @@ const nextTurn = (roomId) => {
   room.players.forEach(p => p.isDrawer = (p.id === drawer.id));
   
   room.status = 'choosing_word';
-  const wordChoices = getRandomWords(room.settings.wordsCount || 3);
+  const wordChoices = getRandomWords(room.settings.wordsCount || 3, room.usedWords);
   
   io.to(roomId).emit('room_updated', sanitizeRoom(room));
   io.to(drawer.id).emit('word_choices', wordChoices);
@@ -174,7 +180,8 @@ io.on('connection', (socket) => {
       wordHints: '',
       timer: 0,
       intervalId: null,
-      disconnectedPlayers: []
+      disconnectedPlayers: [],
+      usedWords: [] // Track used words to prevent repetition
     };
     
     rooms.set(roomId, newRoom);
@@ -236,7 +243,7 @@ io.on('connection', (socket) => {
     const room = rooms.get(roomId);
     if (room && room.status === 'choosing_word') {
       room.currentWord = word;
-      room.wordHints = getWordHint(word);
+      room.usedWords.push(word); // Store chosen word to prevent duplicate play
       room.status = 'playing';
       io.to(roomId).emit('room_updated', sanitizeRoom(room));
       io.to(roomId).emit('clear_canvas');
