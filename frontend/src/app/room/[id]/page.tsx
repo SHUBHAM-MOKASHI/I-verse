@@ -168,9 +168,9 @@ export default function RoomPage() {
 
         <div className="flex-1 flex justify-center min-w-[200px]">
           {room.status === 'playing' ? (
-            <div className="text-center">
-              <p className="text-xs uppercase tracking-widest text-slate-400 mb-1 font-bold">Word to guess</p>
-              <h2 className="text-2xl font-mono font-bold tracking-[0.2em] bg-slate-800/80 px-6 py-2 rounded-xl border border-slate-700 shadow-inner">
+            <div className="text-center min-w-0 max-w-[50vw] xl:max-w-none">
+              <p className="text-[10px] md:text-xs uppercase tracking-widest text-slate-400 mb-0.5 md:mb-1 font-bold truncate">Word to guess</p>
+              <h2 className="text-xl md:text-2xl font-mono font-bold tracking-[0.1em] md:tracking-[0.2em] bg-slate-800/80 px-3 md:px-6 py-1.5 md:py-2 rounded-xl border border-slate-700 shadow-inner truncate">
                 {isDrawer ? room.currentWord : room.wordHints}
               </h2>
             </div>
@@ -195,18 +195,18 @@ export default function RoomPage() {
       </header>
 
       {/* Main Game Area */}
-      <div className="flex-1 w-full flex flex-col xl:flex-row gap-2 md:gap-4 min-h-0 pb-16 md:pb-0 overflow-y-auto xl:overflow-hidden touch-pan-y">
+      <div className="flex-1 w-full grid grid-cols-2 xl:grid-cols-[16rem_1fr_20rem] gap-2 md:gap-4 min-h-0 pb-2 overflow-y-auto xl:overflow-hidden touch-pan-y">
         
         {/* Left sidebar: Players */}
-        <aside className="w-full xl:w-64 glass-panel p-3 flex flex-col gap-2 shrink-0 overflow-y-auto no-scrollbar order-2 xl:order-1 max-h-[30vh] xl:max-h-full">
-          <div className="flex items-center gap-2 mb-1 text-slate-400 font-bold uppercase tracking-wider text-xs">
+        <aside className="col-span-1 glass-panel p-2 flex flex-col gap-2 overflow-y-auto no-scrollbar order-2 xl:order-1 max-h-[45vh] xl:max-h-full">
+          <div className="flex items-center gap-2 mb-1 text-slate-400 font-bold uppercase tracking-wider text-[10px] md:text-xs shrink-0">
             <Users className="w-4 h-4" /> Players ({room.players.length}/10)
           </div>
-          <div className="flex flex-row xl:flex-col gap-2 overflow-x-auto xl:overflow-x-visible pb-2 xl:pb-0">
+          <div className="flex flex-col gap-2 overflow-y-auto pb-2 xl:pb-0">
             {room.players.sort((a,b) => b.score - a.score).map((p, i) => (
               <div 
                 key={p.id} 
-                className={`flex items-center justify-between p-3 rounded-xl min-w-[150px] transition-all border ${p.hasGuessed ? 'bg-green-500/10 border-green-500/30' : 'bg-slate-800/50 border-slate-700/50'}`}
+                className={`flex items-center justify-between p-2 md:p-3 rounded-xl transition-all border ${p.hasGuessed ? 'bg-green-500/10 border-green-500/30' : 'bg-slate-800/50 border-slate-700/50'}`}
               >
                 <div className="flex items-center gap-2 truncate pr-2">
                   <span className="font-bold text-slate-400 text-xs w-4">#{i+1}</span>
@@ -224,7 +224,7 @@ export default function RoomPage() {
         </aside>
 
         {/* Center Canvas */}
-        <main className="flex-1 relative order-1 xl:order-2 flex flex-col min-h-[50vh] xl:min-h-0 shrink-0 xl:shrink w-full">
+        <main className="col-span-2 xl:col-span-1 relative order-1 xl:order-2 flex flex-col min-h-[40vh] xl:min-h-0 w-full rounded-2xl overflow-hidden">
           {room.status === 'choosing_word' && isDrawer ? (
             <div className="absolute inset-0 z-40 glass-panel flex flex-col items-center justify-center p-6 animate-in fade-in zoom-in duration-300">
               <h3 className="text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Choose a Word to Draw</h3>
@@ -281,8 +281,8 @@ export default function RoomPage() {
         </main>
 
         {/* Right sidebar: Chat */}
-        <aside className="w-full xl:w-80 glass-panel flex flex-col shrink-0 order-3 h-[40vh] xl:h-auto border border-slate-700/50">
-          <div className="p-3 border-b border-slate-700/50 bg-slate-800/30 font-bold text-sm tracking-widest text-slate-400 uppercase">
+        <aside className="col-span-1 glass-panel flex flex-col order-3 h-[45vh] xl:h-auto border border-slate-700/50 overflow-hidden">
+          <div className="p-2 md:p-3 border-b border-slate-700/50 bg-slate-800/30 font-bold text-[10px] md:text-sm tracking-widest text-slate-400 uppercase shrink-0">
             Chat & Guesses
           </div>
           
@@ -316,8 +316,8 @@ export default function RoomPage() {
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
                 disabled={isDrawer || currentPlayer?.hasGuessed}
-                placeholder={isDrawer ? "You are drawing!" : currentPlayer?.hasGuessed ? "You already guessed it!" : "Type your guess here..."}
-                className="w-full bg-slate-900 border border-slate-600 rounded-full pl-5 pr-12 py-3 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm disabled:opacity-50"
+                placeholder={isDrawer ? "Drawing..." : currentPlayer?.hasGuessed ? "Guessed!" : "Guess..."}
+                className="w-full bg-slate-900 border border-slate-600 rounded-full pl-3 pr-10 md:pl-5 md:pr-12 py-2 md:py-3 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-xs md:text-sm disabled:opacity-50"
               />
               <button 
                 type="submit"
