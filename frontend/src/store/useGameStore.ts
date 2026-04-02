@@ -4,6 +4,7 @@ import { io, Socket } from 'socket.io-client';
 export interface Player {
   id: string;
   name: string;
+  avatar?: string;
   score: number;
   isDrawer: boolean;
   hasGuessed: boolean;

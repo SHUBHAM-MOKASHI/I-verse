@@ -48,6 +48,7 @@ export default function RoomPage() {
   
   const roomId = params.id as string;
   const playerName = searchParams.get('name') || '';
+  const avatar = searchParams.get('avatar') || '🐶';
   const action = searchParams.get('action') || 'join';
   const rounds = Number(searchParams.get('rounds')) || 3;
   const drawTime = Number(searchParams.get('drawTime')) || 60;
@@ -90,15 +91,15 @@ export default function RoomPage() {
     if (!socket || !isConnected) return;
     
     if (action === 'create') {
-      socket.emit('create_room', { roomId, playerName, settings: { rounds, wordsCount, drawTime, guessTime: 30 } }, (res: any) => {
+      socket.emit('create_room', { roomId, playerName, avatar, settings: { rounds, wordsCount, drawTime, guessTime: 30 } }, (res: any) => {
         if (res.error) router.push('/?error=room_exists');
       });
     } else {
-      socket.emit('join_room', { roomId, playerName }, (res: any) => {
+      socket.emit('join_room', { roomId, playerName, avatar }, (res: any) => {
         if (res.error) router.push(`/?error=${res.error}`);
       });
     }
-  }, [socket, isConnected, action, roomId, playerName, router, rounds, drawTime]);
+  }, [socket, isConnected, action, roomId, playerName, avatar, router, rounds, drawTime]);
 
   useEffect(() => {
     if (chatScrollRef.current) {
@@ -230,14 +231,15 @@ export default function RoomPage() {
             <Users className="w-4 h-4" /> Players ({room.players.length}/10)
           </div>
           <div className="flex flex-col gap-2 overflow-y-auto pb-2 xl:pb-0">
-            {room.players.sort((a,b) => b.score - a.score).map((p, i) => (
+            {[...room.players].sort((a,b) => b.score - a.score).map((p, i) => (
               <div 
                 key={p.id} 
                 className={`flex items-center justify-between p-2 md:p-3 rounded-xl transition-all border ${p.hasGuessed ? 'bg-green-500/10 border-green-500/30' : 'bg-slate-800/50 border-slate-700/50'}`}
               >
                 <div className="flex items-center gap-2 truncate pr-2">
-                  <span className="font-bold text-slate-400 text-xs w-4">#{i+1}</span>
+                  <span className="font-bold text-slate-400 text-xs w-4 shrink-0">#{i+1}</span>
                   <div className="truncate font-semibold text-sm flex items-center gap-1.5 object-contain">
+                    <span className="text-xl shrink-0">{p.avatar || '👤'}</span>
                     <span className="truncate">{p.name} {p.id === socket?.id && '(You)'}</span>
                     {p.isDrawer && <Pencil className="w-3.5 h-3.5 text-blue-400 shrink-0" />}
                   </div>
@@ -291,17 +293,62 @@ export default function RoomPage() {
                 <p className="text-xl text-slate-300">The word was: <span className="font-bold text-yellow-500 uppercase">{room.currentWord}</span></p>
              </div>
           ) : room.status === 'game_over' ? (
-             <div className="absolute inset-0 z-40 glass-panel flex flex-col items-center justify-center bg-slate-900/95 backdrop-blur-xl">
-                <Trophy className="w-24 h-24 text-yellow-400 mb-6 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]" />
-                <h1 className="text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-600">Game Over!</h1>
-                <h2 className="text-2xl text-slate-300 mb-8">Winner: {room.players.sort((a,b)=>b.score-a.score)[0]?.name}</h2>
-                <button 
-                  onClick={() => router.push('/')}
-                  className="px-8 py-4 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-white transition-all shadow-lg hover:shadow-xl"
-                >
-                  Back to Home
-                </button>
-             </div>
+            <div className="absolute inset-0 z-40 glass-panel flex flex-col items-center justify-end pb-8 bg-slate-900/95 backdrop-blur-xl shrink-0 overflow-hidden">
+               <motion.div initial={{ scale: 0.5, y: -50 }} animate={{ scale: 1, y: 0 }} className="text-center mb-8 absolute top-8">
+                  <h1 className="text-5xl md:text-6xl font-extrabold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600 drop-shadow-lg">Game Over!</h1>
+                  <p className="text-slate-300 text-lg md:text-xl">Thanks for playing!</p>
+               </motion.div>
+               
+               {(() => {
+                 const sorted = [...room.players].sort((a,b)=>b.score-a.score);
+                 return (
+                   <div className="flex items-end justify-center h-64 gap-2 md:gap-4 px-2 w-full max-w-2xl mb-8 relative z-10 shrink-0">
+                      {/* 2nd Place */}
+                      {sorted[1] && (
+                        <motion.div initial={{ y: 200, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5, type: 'spring' }} className="flex flex-col items-center w-1/3 max-w-[120px]">
+                          <span className="text-3xl md:text-5xl mb-2">{sorted[1].avatar || '👤'}</span>
+                          <span className="font-bold text-sm md:text-lg truncate max-w-full text-slate-300">{sorted[1].name}</span>
+                          <span className="text-xs md:text-sm text-slate-400 mb-2">{sorted[1].score} pts</span>
+                          <div className="w-full bg-gradient-to-t from-slate-400 to-slate-200 h-24 md:h-32 rounded-t-lg shadow-[0_0_15px_rgba(148,163,184,0.5)] border-t-4 border-slate-100 flex justify-center pt-2">
+                            <span className="font-black text-2xl text-slate-500">2</span>
+                          </div>
+                        </motion.div>
+                      )}
+                      {/* 1st Place */}
+                      {sorted[0] && (
+                        <motion.div initial={{ y: 200, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1, type: 'spring' }} className="flex flex-col items-center w-1/3 max-w-[140px] z-10">
+                          <Trophy className="w-8 h-8 md:w-12 md:h-12 text-yellow-400 mb-2 drop-shadow-[0_0_10px_rgba(250,204,21,0.8)] absolute -top-8 md:-top-16" />
+                          <span className="text-4xl md:text-6xl mb-2">{sorted[0].avatar || '👤'}</span>
+                          <span className="font-bold text-base md:text-xl truncate max-w-full text-yellow-400">{sorted[0].name}</span>
+                          <span className="text-sm md:text-base text-yellow-200 mb-2">{sorted[0].score} pts</span>
+                          <div className="w-full bg-gradient-to-t from-yellow-600 to-yellow-400 h-32 md:h-44 rounded-t-lg shadow-[0_0_20px_rgba(250,204,21,0.6)] border-t-4 border-yellow-200 flex justify-center pt-2">
+                            <span className="font-black text-3xl text-yellow-700">1</span>
+                          </div>
+                        </motion.div>
+                      )}
+                      {/* 3rd Place */}
+                      {sorted[2] && (
+                        <motion.div initial={{ y: 200, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, type: 'spring' }} className="flex flex-col items-center w-1/3 max-w-[120px]">
+                          <span className="text-2xl md:text-4xl mb-2">{sorted[2].avatar || '👤'}</span>
+                          <span className="font-bold text-xs md:text-base truncate max-w-full text-amber-600">{sorted[2].name}</span>
+                          <span className="text-xs md:text-sm text-amber-500 mb-2">{sorted[2].score} pts</span>
+                          <div className="w-full bg-gradient-to-t from-amber-700 to-amber-600 h-16 md:h-24 rounded-t-lg shadow-[0_0_15px_rgba(217,119,6,0.3)] border-t-4 border-amber-500 flex justify-center pt-2">
+                            <span className="font-black text-xl text-amber-800">3</span>
+                          </div>
+                        </motion.div>
+                      )}
+                   </div>
+                 );
+               })()}
+               
+               <motion.button 
+                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
+                 onClick={() => router.push('/')}
+                 className="px-8 py-4 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-white transition-all shadow-lg hover:shadow-xl relative z-20"
+               >
+                 Back to Home
+               </motion.button>
+            </div>
           ) : null}
 
           <Canvas isDrawer={isDrawer} />

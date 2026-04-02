@@ -5,9 +5,12 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Pencil, Play, Users, Settings } from 'lucide-react';
 
+const AVATARS = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🦄', '🐙', '👾', '👻', '👽', '🤖'];
+
 export default function Home() {
   const router = useRouter();
   const [playerName, setPlayerName] = useState('');
+  const [avatar, setAvatar] = useState('🐶');
   const [roomId, setRoomId] = useState('');
   const [isCreating, setIsCreating] = useState(true);
 
@@ -45,6 +48,7 @@ export default function Home() {
     // Store settings in query/state or let the room page handle creation via socket
     const query = new URLSearchParams({
       name: playerName,
+      avatar: avatar,
       rounds: rounds.toString(),
       drawTime: drawTime.toString(),
       wordsCount: wordsCount.toString(),
@@ -60,6 +64,7 @@ export default function Home() {
     
     const query = new URLSearchParams({
       name: playerName,
+      avatar: avatar,
       action: 'join'
     }).toString();
     
@@ -122,6 +127,22 @@ export default function Home() {
                 />
               </div>
 
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Choose Avatar</label>
+                <div className="flex gap-2 overflow-x-auto pb-2 pt-1 px-1 custom-scrollbar snap-x">
+                  {AVATARS.map((emoji) => (
+                    <button
+                      key={emoji}
+                      type="button"
+                      onClick={() => setAvatar(emoji)}
+                      className={`text-2xl w-12 h-12 shrink-0 rounded-full flex items-center justify-center transition-all snap-center ${avatar === emoji ? 'bg-blue-500/20 border-2 border-blue-500 scale-110 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'bg-slate-800/50 border border-slate-700 hover:bg-slate-700 hover:scale-105'}`}
+                    >
+                      {emoji}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
@@ -182,6 +203,22 @@ export default function Home() {
                   placeholder="Enter your nickname"
                   required
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Choose Avatar</label>
+                <div className="flex gap-2 overflow-x-auto pb-2 pt-1 px-1 custom-scrollbar snap-x">
+                  {AVATARS.map((emoji) => (
+                    <button
+                      key={emoji}
+                      type="button"
+                      onClick={() => setAvatar(emoji)}
+                      className={`text-2xl w-12 h-12 shrink-0 rounded-full flex items-center justify-center transition-all snap-center ${avatar === emoji ? 'bg-purple-500/20 border-2 border-purple-500 scale-110 shadow-[0_0_10px_rgba(168,85,247,0.5)]' : 'bg-slate-800/50 border border-slate-700 hover:bg-slate-700 hover:scale-105'}`}
+                    >
+                      {emoji}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div>

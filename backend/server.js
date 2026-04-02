@@ -163,7 +163,7 @@ const startTimer = (roomId, time, onExpire) => {
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
-  socket.on('create_room', ({ roomId, playerName, settings }, callback) => {
+  socket.on('create_room', ({ roomId, playerName, avatar, settings }, callback) => {
     if (rooms.has(roomId)) {
       if (typeof callback === 'function') return callback({ error: 'Room already exists' });
       return;
@@ -172,7 +172,7 @@ io.on('connection', (socket) => {
     const newRoom = {
       id: roomId,
       settings: settings || { rounds: 3, wordsCount: 3, drawTime: 60, guessTime: 30 },
-      players: [{ id: socket.id, name: playerName, score: 0, isDrawer: false, hasGuessed: false }],
+      players: [{ id: socket.id, name: playerName, avatar: avatar || '🐶', score: 0, isDrawer: false, hasGuessed: false }],
       status: 'waiting',
       currentRound: 1,
       drawerIndex: 0,
@@ -192,7 +192,7 @@ io.on('connection', (socket) => {
     io.to(roomId).emit('room_updated', sanitizeRoom(newRoom));
   });
 
-  socket.on('join_room', ({ roomId, playerName }, callback) => {
+  socket.on('join_room', ({ roomId, playerName, avatar }, callback) => {
     const room = rooms.get(roomId);
     if (!room) {
       if (typeof callback === 'function') return callback({ error: 'Room not found' });
@@ -217,7 +217,7 @@ io.on('connection', (socket) => {
         }
       }
       
-      room.players.push({ id: socket.id, name: playerName, score: restoredScore, isDrawer: false, hasGuessed: false });
+      room.players.push({ id: socket.id, name: playerName, avatar: avatar || '🐶', score: restoredScore, isDrawer: false, hasGuessed: false });
     }
     
     socket.join(roomId);
