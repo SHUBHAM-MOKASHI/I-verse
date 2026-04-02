@@ -228,6 +228,7 @@ export default function Canvas({ isDrawer }: { isDrawer: boolean }) {
                   {r.type === 'dislike' && '👎'}
                   {r.type === 'laugh' && '😂'}
                   {r.type === 'fire' && '🔥'}
+                  {r.type === 'poop' && '💩'}
                 </div>
                 <div className="text-[10px] text-center font-bold text-white bg-black/50 rounded-full px-2 mt-1 whitespace-nowrap">{r.playerName}</div>
               </motion.div>

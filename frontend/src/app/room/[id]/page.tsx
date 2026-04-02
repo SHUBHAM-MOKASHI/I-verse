@@ -57,10 +57,24 @@ export default function RoomPage() {
   
   const [chatInput, setChatInput] = useState('');
   const chatScrollRef = useRef<HTMLDivElement>(null);
+  const chatInputRef = useRef<HTMLInputElement>(null);
   
   const currentPlayer = room?.players.find(p => p.id === socket?.id);
   const isDrawer = currentPlayer?.isDrawer || false;
   const isHost = room?.players[0]?.id === socket?.id;
+
+  // Lock viewport height on mount so mobile keyboard doesn't collapse canvas
+  useEffect(() => {
+    const setAppHeight = () => {
+      document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+    };
+    setAppHeight();
+    // Only update on orientation change, NOT on resize (keyboard causes resize)
+    window.addEventListener('orientationchange', () => {
+      setTimeout(setAppHeight, 100);
+    });
+    return () => window.removeEventListener('orientationchange', setAppHeight);
+  }, []);
 
   useEffect(() => {
     if (!playerName) {
@@ -149,7 +163,7 @@ export default function RoomPage() {
   }
 
   return (
-    <div className="fixed inset-0 p-2 md:p-6 flex flex-col items-center gap-2 md:gap-4 bg-[#0f172a] text-slate-100 max-w-7xl mx-auto">
+    <div className="game-room fixed inset-x-0 top-0 p-2 md:p-6 flex flex-col items-center gap-2 md:gap-4 bg-[#0f172a] text-slate-100 max-w-7xl mx-auto overflow-hidden">
       
       {/* Header Area */ }
       <header className="w-full glass-panel p-2 md:p-3 flex flex-wrap justify-between items-center gap-1.5 md:gap-4 shrink-0 shadow-lg">
@@ -325,9 +339,14 @@ export default function RoomPage() {
           <form onSubmit={handleSendMessage} className="p-3 border-t border-slate-700/50 bg-slate-800/30">
             <div className="relative flex items-center">
               <input
+                ref={chatInputRef}
                 type="text"
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
+                onBlur={() => {
+                  // Scroll back to top on mobile after keyboard closes
+                  window.scrollTo(0, 0);
+                }}
                 disabled={isDrawer || currentPlayer?.hasGuessed}
                 placeholder={isDrawer ? "Drawing..." : currentPlayer?.hasGuessed ? "Guessed!" : "Guess..."}
                 className="w-full bg-slate-900 border border-slate-600 rounded-full pl-3 pr-10 md:pl-5 md:pr-12 py-2 md:py-3 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-xs md:text-sm disabled:opacity-50"

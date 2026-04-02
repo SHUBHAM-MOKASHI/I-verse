@@ -20,6 +20,13 @@ body {
                     radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.15), transparent 25%);
   background-attachment: fixed;
   min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+/* Lock the game room height so mobile keyboard doesn't collapse the canvas */
+.game-room {
+  height: var(--app-height, 100dvh);
 }
 
 .glass {
