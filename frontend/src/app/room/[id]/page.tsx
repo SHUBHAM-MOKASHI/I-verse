@@ -151,27 +151,27 @@ export default function RoomPage() {
     <div className="fixed inset-0 p-2 md:p-6 flex flex-col items-center gap-2 md:gap-4 bg-[#0f172a] text-slate-100 max-w-7xl mx-auto">
       
       {/* Header Area */ }
-      <header className="w-full glass-panel p-3 md:p-4 flex flex-wrap justify-between items-center gap-2 md:gap-4 shrink-0 shadow-lg">
-        <div className="flex items-center gap-4">
-          <div className="bg-blue-500/20 text-blue-400 font-mono font-bold px-4 py-2 rounded-xl flex items-center gap-2 border border-blue-500/30">
-            <span className="text-sm uppercase tracking-widest">Room</span>
-            <span className="text-xl">{room.id}</span>
+      <header className="w-full glass-panel p-2 md:p-3 flex flex-wrap justify-between items-center gap-1.5 md:gap-4 shrink-0 shadow-lg">
+        <div className="flex items-center gap-2 md:gap-4">
+          <div className="bg-blue-500/20 text-blue-400 font-mono font-bold px-2 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl flex items-center gap-1 md:gap-2 border border-blue-500/30">
+            <span className="text-[9px] md:text-sm uppercase tracking-widest">Room</span>
+            <span className="text-sm md:text-xl">{room.id}</span>
           </div>
           
           {room.status === 'playing' && (
-            <div className="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700">
-              <Timer className={`w-5 h-5 ${room.timer <= 10 ? 'text-red-500 animate-pulse' : 'text-slate-400'}`} />
-              <span className={`font-bold text-xl ${room.timer <= 10 ? 'text-red-500' : 'text-slate-200'}`}>{room.timer}s</span>
+            <div className="flex items-center gap-1 md:gap-2 bg-slate-800 px-2 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl border border-slate-700">
+              <Timer className={`w-3.5 h-3.5 md:w-5 md:h-5 ${room.timer <= 10 ? 'text-red-500 animate-pulse' : 'text-slate-400'}`} />
+              <span className={`font-bold text-sm md:text-xl ${room.timer <= 10 ? 'text-red-500' : 'text-slate-200'}`}>{room.timer}s</span>
             </div>
           )}
         </div>
 
         <div className="flex-1 flex justify-center min-w-[200px]">
           {room.status === 'playing' ? (
-            <div className="text-center min-w-0 max-w-[45vw] xl:max-w-none">
+            <div className="text-center min-w-0 flex-1 max-w-[50vw] md:max-w-none px-2">
               <p className="text-[9px] md:text-xs uppercase tracking-widest text-slate-400 mb-0.5 md:mb-1 font-bold truncate">Word to guess</p>
-              <h2 className="text-sm md:text-2xl font-mono font-bold tracking-normal md:tracking-[0.2em] bg-slate-800/80 px-2 md:px-6 py-1 md:py-2 rounded-lg md:rounded-xl border border-slate-700 shadow-inner truncate">
-                {isDrawer ? room.currentWord : room.wordHints}
+              <h2 className="text-xs sm:text-sm md:text-2xl font-mono font-bold tracking-normal md:tracking-[0.2em] bg-slate-800/80 px-2 md:px-6 py-1 md:py-2 rounded-lg md:rounded-xl border border-slate-700 shadow-inner whitespace-pre-wrap break-words leading-tight w-full max-h-[80px] overflow-y-auto no-scrollbar">
+                {isDrawer ? room.currentWord : (room.wordHints || '').replace(/   /g, ' \u00A0\u00A0 ')}
               </h2>
             </div>
           ) : (
@@ -183,13 +183,13 @@ export default function RoomPage() {
           )}
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           <div className="text-right">
-            <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Round</p>
-            <p className="font-bold text-lg">{room.currentRound} <span className="text-slate-500">/ {room.settings.rounds}</span></p>
+            <p className="text-[9px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">Round</p>
+            <p className="font-bold text-sm md:text-lg">{room.currentRound} <span className="text-slate-500">/ {room.settings.rounds}</span></p>
           </div>
-          <button onClick={copyLink} className="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-slate-700 text-slate-300">
-            <LinkIcon className="w-5 h-5" />
+          <button onClick={copyLink} className="p-1.5 md:p-2 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-slate-700 text-slate-300">
+            <LinkIcon className="w-3.5 h-3.5 md:w-5 md:h-5" />
           </button>
         </div>
       </header>

@@ -184,10 +184,10 @@ export default function Canvas({ isDrawer }: { isDrawer: boolean }) {
   };
 
   return (
-    <div className="flex flex-col w-full h-full min-h-[300px] bg-slate-100 rounded-2xl overflow-hidden shadow-inner relative">
+    <div className="flex flex-col w-full h-full min-h-[250px] md:min-h-[300px] bg-slate-100 rounded-2xl overflow-hidden shadow-inner relative">
       <div 
         ref={containerRef}
-        className="flex-1 w-full h-full relative cursor-crosshair touch-none flex items-center justify-center bg-transparent"
+        className="flex-1 w-full h-full relative cursor-crosshair touch-none flex items-center justify-center bg-transparent min-h-0"
       >
         <canvas
           ref={canvasRef}
