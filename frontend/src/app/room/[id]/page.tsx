@@ -170,17 +170,21 @@ export default function RoomPage() {
           {room.status === 'playing' ? (
             <div className="text-center min-w-0 flex-1 max-w-[50vw] md:max-w-none px-2">
               <p className="text-[9px] md:text-xs uppercase tracking-widest text-slate-400 mb-0.5 md:mb-1 font-bold truncate">Word to guess</p>
-              <h2 className="text-xs sm:text-sm md:text-2xl font-mono font-bold tracking-normal md:tracking-[0.2em] bg-slate-800/80 px-2 md:px-6 py-1.5 md:py-2 rounded-lg md:rounded-xl border border-slate-700 shadow-inner leading-tight w-full flex items-center justify-center">
-                <div className="flex flex-wrap items-center justify-center gap-x-3 md:gap-x-6 gap-y-1">
-                  {(isDrawer ? room.currentWord || '' : room.wordHints || '')
-                    .split(isDrawer ? ' ' : '   ')
-                    .map((part, i) => (
-                      <span key={i} className="whitespace-nowrap">
-                        {isDrawer ? part : part.replace(/ /g, '\u00A0')}
-                      </span>
-                    ))}
-                </div>
-              </h2>
+              {(() => {
+                const wordToDisplay = isDrawer ? (room.currentWord || '') : (room.wordHints || '');
+                const len = wordToDisplay.length;
+                let textSize = "text-xs sm:text-sm md:text-xl";
+                if (len > 35) textSize = "text-[6px] sm:text-[7px] md:text-sm tracking-tighter";
+                else if (len > 25) textSize = "text-[8px] sm:text-[10px] md:text-base tracking-tighter";
+                else if (len > 18) textSize = "text-[10px] sm:text-xs md:text-lg tracking-tight";
+                else textSize = "text-xs sm:text-sm md:text-2xl tracking-normal md:tracking-[0.2em]";
+                
+                return (
+                  <h2 className={`${textSize} font-mono font-bold bg-slate-800/80 px-2 md:px-6 py-1.5 md:py-2 rounded-lg md:rounded-xl border border-slate-700 shadow-inner whitespace-pre overflow-hidden flex items-center justify-center w-full`}>
+                    {wordToDisplay}
+                  </h2>
+                );
+              })()}
             </div>
           ) : (
             <div className="text-sm md:text-xl font-bold text-slate-300">
