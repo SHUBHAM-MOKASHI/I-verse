@@ -148,10 +148,10 @@ export default function RoomPage() {
   }
 
   return (
-    <div className="min-h-screen p-2 md:p-6 flex flex-col items-center gap-4 bg-[#0f172a] text-slate-100 max-w-7xl mx-auto h-screen overflow-hidden">
+    <div className="fixed inset-0 p-2 md:p-6 flex flex-col items-center gap-2 md:gap-4 bg-[#0f172a] text-slate-100 max-w-7xl mx-auto">
       
-      {/* Header Area */}
-      <header className="w-full glass-panel p-4 flex flex-wrap justify-between items-center gap-4 shrink-0 shadow-lg">
+      {/* Header Area */ }
+      <header className="w-full glass-panel p-3 md:p-4 flex flex-wrap justify-between items-center gap-2 md:gap-4 shrink-0 shadow-lg">
         <div className="flex items-center gap-4">
           <div className="bg-blue-500/20 text-blue-400 font-mono font-bold px-4 py-2 rounded-xl flex items-center gap-2 border border-blue-500/30">
             <span className="text-sm uppercase tracking-widest">Room</span>
@@ -195,11 +195,11 @@ export default function RoomPage() {
       </header>
 
       {/* Main Game Area */}
-      <div className="flex-1 w-full flex flex-col xl:flex-row gap-4 min-h-0 pb-4 xl:pb-0 overflow-y-auto xl:overflow-hidden">
+      <div className="flex-1 w-full flex flex-col xl:flex-row gap-2 md:gap-4 min-h-0 pb-16 md:pb-0 overflow-y-auto xl:overflow-hidden touch-pan-y">
         
         {/* Left sidebar: Players */}
-        <aside className="w-full xl:w-64 glass-panel p-4 flex flex-col gap-3 shrink-0 overflow-y-auto no-scrollbar order-2 xl:order-1">
-          <div className="flex items-center gap-2 mb-2 text-slate-400 font-bold uppercase tracking-wider text-xs">
+        <aside className="w-full xl:w-64 glass-panel p-3 flex flex-col gap-2 shrink-0 overflow-y-auto no-scrollbar order-2 xl:order-1 max-h-[30vh] xl:max-h-full">
+          <div className="flex items-center gap-2 mb-1 text-slate-400 font-bold uppercase tracking-wider text-xs">
             <Users className="w-4 h-4" /> Players ({room.players.length}/10)
           </div>
           <div className="flex flex-row xl:flex-col gap-2 overflow-x-auto xl:overflow-x-visible pb-2 xl:pb-0">
@@ -224,7 +224,7 @@ export default function RoomPage() {
         </aside>
 
         {/* Center Canvas */}
-        <main className="flex-1 relative order-1 xl:order-2 flex flex-col min-h-[50vh] xl:min-h-0 min-w-0 xl:min-w-[400px]">
+        <main className="flex-1 relative order-1 xl:order-2 flex flex-col min-h-[50vh] xl:min-h-0 shrink-0 xl:shrink w-full">
           {room.status === 'choosing_word' && isDrawer ? (
             <div className="absolute inset-0 z-40 glass-panel flex flex-col items-center justify-center p-6 animate-in fade-in zoom-in duration-300">
               <h3 className="text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Choose a Word to Draw</h3>
@@ -281,7 +281,7 @@ export default function RoomPage() {
         </main>
 
         {/* Right sidebar: Chat */}
-        <aside className="w-full xl:w-80 glass-panel flex flex-col shrink-0 order-3 h-[40vh] xl:h-auto">
+        <aside className="w-full xl:w-80 glass-panel flex flex-col shrink-0 order-3 h-[40vh] xl:h-auto border border-slate-700/50">
           <div className="p-3 border-b border-slate-700/50 bg-slate-800/30 font-bold text-sm tracking-widest text-slate-400 uppercase">
             Chat & Guesses
           </div>

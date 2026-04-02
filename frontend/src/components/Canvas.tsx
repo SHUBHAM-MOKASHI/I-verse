@@ -247,20 +247,20 @@ export default function Canvas({ isDrawer }: { isDrawer: boolean }) {
       )}
 
       {isDrawer && room?.status === 'playing' && (
-        <div className="bg-white border-t border-slate-200 p-3 flex flex-wrap items-center justify-between gap-2 z-30">
-          <div className="flex items-center gap-1">
+        <div className="bg-white border-t border-slate-200 p-2 md:p-3 flex flex-wrap items-center justify-between gap-2 z-30">
+          <div className="flex items-center gap-1 md:gap-2">
             {colors.map(c => (
               <button
                 key={c}
                 onClick={() => setColor(c)}
-                className={`w-8 h-8 rounded-full border-2 transition-transform ${color === c ? 'scale-110 border-slate-400 shadow-md' : 'border-transparent hover:scale-105'}`}
+                className={`w-6 h-6 md:w-8 md:h-8 rounded-full border-2 transition-transform shrink-0 ${color === c ? 'scale-110 border-slate-400 shadow-md' : 'border-transparent hover:scale-105'}`}
                 style={{ backgroundColor: c, boxShadow: c === '#FFFFFF' ? 'inset 0 0 0 1px #e2e8f0' : 'none' }}
               />
             ))}
           </div>
           
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-lg">
+          <div className="flex items-center gap-2 md:gap-4">
+            <div className="flex items-center gap-1 md:gap-2 bg-slate-100 px-2 py-1.5 md:px-3 rounded-lg">
               <PaintBucket className="w-4 h-4 text-slate-500" />
               <input 
                 type="range" 
@@ -268,7 +268,7 @@ export default function Canvas({ isDrawer }: { isDrawer: boolean }) {
                 max="20" 
                 value={lineWidth} 
                 onChange={(e) => setLineWidth(Number(e.target.value))}
-                className="w-24 accent-blue-500"
+                className="w-16 md:w-24 accent-blue-500"
               />
             </div>
             
