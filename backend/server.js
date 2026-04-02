@@ -173,7 +173,8 @@ io.on('connection', (socket) => {
       currentWord: '',
       wordHints: '',
       timer: 0,
-      intervalId: null
+      intervalId: null,
+      disconnectedPlayers: []
     };
     
     rooms.set(roomId, newRoom);
@@ -194,14 +195,22 @@ io.on('connection', (socket) => {
       if (typeof callback === 'function') return callback({ error: 'Room is full' });
       return;
     }
-    if (room.status !== 'waiting') {
-      if (typeof callback === 'function') return callback({ error: 'Game already in progress' });
-      return;
-    }
 
     // Prevent duplicate entries for the same socket
     if (!room.players.some(p => p.id === socket.id)) {
-      room.players.push({ id: socket.id, name: playerName, score: 0, isDrawer: false, hasGuessed: false });
+      // Check if re-joining with same name
+      let restoredScore = 0;
+      if (room.disconnectedPlayers) {
+        const oldPlayerIdx = room.disconnectedPlayers.findIndex(
+          p => p.name.toLowerCase() === playerName.toLowerCase()
+        );
+        if (oldPlayerIdx !== -1) {
+          restoredScore = room.disconnectedPlayers[oldPlayerIdx].score;
+          room.disconnectedPlayers.splice(oldPlayerIdx, 1);
+        }
+      }
+      
+      room.players.push({ id: socket.id, name: playerName, score: restoredScore, isDrawer: false, hasGuessed: false });
     }
     
     socket.join(roomId);
@@ -329,6 +338,11 @@ io.on('connection', (socket) => {
       if (room) {
         const player = room.players.find(p => p.id === socket.id);
         room.players = room.players.filter(p => p.id !== socket.id);
+        
+        if (player) {
+          if (!room.disconnectedPlayers) room.disconnectedPlayers = [];
+          room.disconnectedPlayers.push(player);
+        }
         
         if (room.players.length === 0) {
           if (room.intervalId) clearInterval(room.intervalId);
