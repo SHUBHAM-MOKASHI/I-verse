@@ -223,10 +223,10 @@ export default function RoomPage() {
       </header>
 
       {/* Main Game Area */}
-      <div className="flex-1 w-full grid grid-cols-2 xl:grid-cols-[16rem_1fr_20rem] gap-2 md:gap-4 min-h-0 pb-2 overflow-y-auto xl:overflow-hidden touch-pan-y">
+      <div className="flex-1 w-full flex flex-col xl:grid xl:grid-cols-[16rem_1fr_20rem] gap-2 md:gap-4 min-h-0 pb-2 overflow-y-auto xl:overflow-hidden touch-pan-y">
         
         {/* Left sidebar: Players */}
-        <aside className="col-span-1 glass-panel p-2 flex flex-col gap-2 overflow-y-auto no-scrollbar order-2 xl:order-1 max-h-[45vh] xl:max-h-full">
+        <aside className="glass-panel p-2 flex flex-col gap-2 overflow-y-auto no-scrollbar order-3 xl:order-1 max-h-[45vh] xl:max-h-full shrink-0">
           <div className="flex items-center gap-2 mb-1 text-slate-400 font-bold uppercase tracking-wider text-[10px] md:text-xs shrink-0">
             <Users className="w-4 h-4" /> Players ({room.players.length}/10)
           </div>
@@ -253,7 +253,7 @@ export default function RoomPage() {
         </aside>
 
         {/* Center Canvas */}
-        <main className="col-span-2 xl:col-span-1 relative order-1 xl:order-2 flex flex-col h-[48vh] xl:min-h-0 xl:flex-1 w-full rounded-2xl overflow-hidden">
+        <main className="relative order-1 xl:order-2 flex flex-col h-[48vh] md:h-[60vh] xl:min-h-0 xl:flex-1 w-full rounded-2xl overflow-hidden shrink-0">
           {room.status === 'choosing_word' && isDrawer ? (
             <div className="absolute inset-0 z-40 glass-panel flex flex-col items-center justify-center p-4 md:p-6 animate-in fade-in zoom-in duration-300">
               <h3 className="text-xl md:text-3xl font-bold mb-4 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Choose a Word to Draw</h3>
@@ -355,7 +355,7 @@ export default function RoomPage() {
         </main>
 
         {/* Right sidebar: Chat */}
-        <aside className="col-span-1 glass-panel flex flex-col order-3 h-[45vh] xl:h-auto border border-slate-700/50 overflow-hidden">
+        <aside className="glass-panel flex flex-col order-2 xl:order-3 h-[45vh] xl:h-auto border border-slate-700/50 overflow-hidden shrink-0">
           <div className="p-2 md:p-3 border-b border-slate-700/50 bg-slate-800/30 font-bold text-[10px] md:text-sm tracking-widest text-slate-400 uppercase shrink-0">
             Chat & Guesses
           </div>
@@ -395,7 +395,7 @@ export default function RoomPage() {
                   window.scrollTo(0, 0);
                 }}
                 disabled={isDrawer || currentPlayer?.hasGuessed}
-                placeholder={isDrawer ? "Drawing..." : currentPlayer?.hasGuessed ? "Guessed!" : "Guess..."}
+                placeholder={isDrawer ? "Drawing..." : currentPlayer?.hasGuessed ? "Guessed! Waiting for others..." : "Type your guess here..."}
                 className="w-full bg-slate-900 border border-slate-600 rounded-full pl-3 pr-10 md:pl-5 md:pr-12 py-2 md:py-3 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-xs md:text-sm disabled:opacity-50"
               />
               <button 

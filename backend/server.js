@@ -245,6 +245,7 @@ io.on('connection', (socket) => {
       room.currentWord = word;
       room.usedWords.push(word); // Store chosen word to prevent duplicate play
       room.status = 'playing';
+      room.wordHints = getWordHint(word);
       io.to(roomId).emit('room_updated', sanitizeRoom(room));
       io.to(roomId).emit('clear_canvas');
       io.to(roomId).emit('chat_message', { system: true, text: `The word has been chosen! Start guessing.` });
