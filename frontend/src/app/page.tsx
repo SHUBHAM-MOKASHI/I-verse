@@ -14,6 +14,7 @@ export default function Home() {
   // Settings
   const [rounds, setRounds] = useState(3);
   const [drawTime, setDrawTime] = useState(60);
+  const [wordsCount, setWordsCount] = useState(3);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -46,6 +47,7 @@ export default function Home() {
       name: playerName,
       rounds: rounds.toString(),
       drawTime: drawTime.toString(),
+      wordsCount: wordsCount.toString(),
       action: 'create'
     }).toString();
     
@@ -120,7 +122,7 @@ export default function Home() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
                     <Settings className="w-3 h-3" /> Rounds
@@ -145,6 +147,18 @@ export default function Home() {
                     <option value={45}>45s</option>
                     <option value={60}>60s</option>
                     <option value={90}>90s</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Words Count</label>
+                  <select
+                    value={wordsCount}
+                    onChange={(e) => setWordsCount(Number(e.target.value))}
+                    className="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:border-blue-500 transition-all appearance-none"
+                  >
+                    <option value={3}>3 Words</option>
+                    <option value={4}>4 Words</option>
+                    <option value={5}>5 Words</option>
                   </select>
                 </div>
               </div>

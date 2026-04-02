@@ -243,6 +243,7 @@ export default function Canvas({ isDrawer }: { isDrawer: boolean }) {
           <button onClick={() => sendReaction('dislike')} className="p-1.5 md:p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-xl md:text-3xl shadow-sm bg-white" title="Dislike">👎</button>
           <button onClick={() => sendReaction('laugh')} className="p-1.5 md:p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-xl md:text-3xl shadow-sm bg-white" title="Laugh">😂</button>
           <button onClick={() => sendReaction('fire')} className="p-1.5 md:p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-xl md:text-3xl shadow-sm bg-white" title="Fire!">🔥</button>
+          <button onClick={() => sendReaction('poop')} className="p-1.5 md:p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-xl md:text-3xl shadow-sm bg-white" title="Poop">💩</button>
         </div>
       )}
 

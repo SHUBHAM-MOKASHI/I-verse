@@ -51,6 +51,7 @@ export default function RoomPage() {
   const action = searchParams.get('action') || 'join';
   const rounds = Number(searchParams.get('rounds')) || 3;
   const drawTime = Number(searchParams.get('drawTime')) || 60;
+  const wordsCount = Number(searchParams.get('wordsCount')) || 3;
   
   const { socket, connectSocket, disconnectSocket, room, isConnected, messages, wordChoices } = useGameStore();
   
@@ -75,7 +76,7 @@ export default function RoomPage() {
     if (!socket || !isConnected) return;
     
     if (action === 'create') {
-      socket.emit('create_room', { roomId, playerName, settings: { rounds, wordsCount: 3, drawTime, guessTime: 30 } }, (res: any) => {
+      socket.emit('create_room', { roomId, playerName, settings: { rounds, wordsCount, drawTime, guessTime: 30 } }, (res: any) => {
         if (res.error) router.push('/?error=room_exists');
       });
     } else {
