@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Pencil, Play, Users, Settings } from 'lucide-react';
@@ -14,6 +14,27 @@ export default function Home() {
   // Settings
   const [rounds, setRounds] = useState(3);
   const [drawTime, setDrawTime] = useState(60);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlRoomId = params.get('roomId');
+      const err = params.get('error');
+      
+      if (urlRoomId) {
+        setRoomId(urlRoomId.trim().toUpperCase());
+        setIsCreating(false);
+      }
+      if (err) {
+        // give a user friendly error message based on common socket errors
+        const errMsg = err === 'room_exists' ? 'Room already exists.' : 
+                       err === 'Room not found' ? 'Invalid room code! Please check and try again.' : 
+                       err === 'Room is full' ? 'This room is full.' : 
+                       err === 'Game already in progress' ? 'The game has already started!' : err;
+        alert(`Could not join: ${errMsg}`);
+      }
+    }
+  }, []);
 
   const handleCreateRoom = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +61,7 @@ export default function Home() {
       action: 'join'
     }).toString();
     
-    router.push(`/room/${roomId.toUpperCase()}?${query}`);
+    router.push(`/room/${roomId.trim().toUpperCase()}?${query}`);
   };
 
   return (
