@@ -238,17 +238,17 @@ export default function Canvas({ isDrawer }: { isDrawer: boolean }) {
       </div>
 
       {!isDrawer && room?.status === 'playing' && (
-        <div className="bg-slate-50 border-t border-slate-200 p-2 flex items-center justify-center gap-6 z-30">
-          <button onClick={() => sendReaction('like')} className="p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-3xl shadow-sm bg-white" title="Like">👍</button>
-          <button onClick={() => sendReaction('dislike')} className="p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-3xl shadow-sm bg-white" title="Dislike">👎</button>
-          <button onClick={() => sendReaction('laugh')} className="p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-3xl shadow-sm bg-white" title="Laugh">😂</button>
-          <button onClick={() => sendReaction('fire')} className="p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-3xl shadow-sm bg-white" title="Fire!">🔥</button>
+        <div className="bg-slate-50 border-t border-slate-200 p-1 md:p-2 flex items-center justify-center gap-4 md:gap-6 z-30 shrink-0">
+          <button onClick={() => sendReaction('like')} className="p-1.5 md:p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-xl md:text-3xl shadow-sm bg-white" title="Like">👍</button>
+          <button onClick={() => sendReaction('dislike')} className="p-1.5 md:p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-xl md:text-3xl shadow-sm bg-white" title="Dislike">👎</button>
+          <button onClick={() => sendReaction('laugh')} className="p-1.5 md:p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-xl md:text-3xl shadow-sm bg-white" title="Laugh">😂</button>
+          <button onClick={() => sendReaction('fire')} className="p-1.5 md:p-2 hover:bg-slate-200 rounded-full transition-all hover:scale-110 active:scale-95 text-xl md:text-3xl shadow-sm bg-white" title="Fire!">🔥</button>
         </div>
       )}
 
       {isDrawer && room?.status === 'playing' && (
-        <div className="bg-white border-t border-slate-200 p-2 md:p-3 flex flex-wrap items-center justify-between gap-2 z-30">
-          <div className="flex items-center gap-1 md:gap-2">
+        <div className="bg-white border-t border-slate-200 p-2 md:p-3 flex items-center justify-between gap-1 z-30 shrink-0 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-1 min-w-[70%]">
             {colors.map(c => (
               <button
                 key={c}
@@ -259,25 +259,25 @@ export default function Canvas({ isDrawer }: { isDrawer: boolean }) {
             ))}
           </div>
           
-          <div className="flex items-center gap-2 md:gap-4">
-            <div className="flex items-center gap-1 md:gap-2 bg-slate-100 px-2 py-1.5 md:px-3 rounded-lg">
-              <PaintBucket className="w-4 h-4 text-slate-500" />
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1 bg-slate-100 px-1.5 md:px-2 py-1 md:py-1.5 rounded-lg shrink-0">
+              <PaintBucket className="w-3 md:w-4 h-3 md:h-4 text-slate-500 shrink-0" />
               <input 
                 type="range" 
                 min="2" 
                 max="20" 
                 value={lineWidth} 
                 onChange={(e) => setLineWidth(Number(e.target.value))}
-                className="w-16 md:w-24 accent-blue-500"
+                className="w-12 md:w-20 accent-blue-500 shrink-0"
               />
             </div>
             
             <button 
               onClick={clearCanvas}
-              className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-1 font-semibold text-sm"
+              className="p-1 px-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-1 font-semibold text-xs md:text-sm shrink-0"
               title="Clear Canvas"
             >
-              <Eraser className="w-5 h-5" /> Clear
+              <Eraser className="w-3.5 md:w-5 h-3.5 md:h-5" /> Clear
             </button>
           </div>
         </div>

@@ -168,16 +168,16 @@ export default function RoomPage() {
 
         <div className="flex-1 flex justify-center min-w-[200px]">
           {room.status === 'playing' ? (
-            <div className="text-center min-w-0 max-w-[50vw] xl:max-w-none">
-              <p className="text-[10px] md:text-xs uppercase tracking-widest text-slate-400 mb-0.5 md:mb-1 font-bold truncate">Word to guess</p>
-              <h2 className="text-xl md:text-2xl font-mono font-bold tracking-[0.1em] md:tracking-[0.2em] bg-slate-800/80 px-3 md:px-6 py-1.5 md:py-2 rounded-xl border border-slate-700 shadow-inner truncate">
+            <div className="text-center min-w-0 max-w-[45vw] xl:max-w-none">
+              <p className="text-[9px] md:text-xs uppercase tracking-widest text-slate-400 mb-0.5 md:mb-1 font-bold truncate">Word to guess</p>
+              <h2 className="text-sm md:text-2xl font-mono font-bold tracking-normal md:tracking-[0.2em] bg-slate-800/80 px-2 md:px-6 py-1 md:py-2 rounded-lg md:rounded-xl border border-slate-700 shadow-inner truncate">
                 {isDrawer ? room.currentWord : room.wordHints}
               </h2>
             </div>
           ) : (
-            <div className="text-xl font-bold text-slate-300">
+            <div className="text-sm md:text-xl font-bold text-slate-300">
               {room.status === 'waiting' ? 'Waiting to start' : 
-               room.status === 'choosing_word' ? 'Choosing a word...' : 
+               room.status === 'choosing_word' ? 'Choosing word...' : 
                room.status === 'round_end' ? 'Round Ended!' : 'Game Over!'}
             </div>
           )}
@@ -224,16 +224,16 @@ export default function RoomPage() {
         </aside>
 
         {/* Center Canvas */}
-        <main className="col-span-2 xl:col-span-1 relative order-1 xl:order-2 flex flex-col min-h-[40vh] xl:min-h-0 w-full rounded-2xl overflow-hidden">
+        <main className="col-span-2 xl:col-span-1 relative order-1 xl:order-2 flex flex-col h-[48vh] xl:min-h-0 xl:flex-1 w-full rounded-2xl overflow-hidden">
           {room.status === 'choosing_word' && isDrawer ? (
-            <div className="absolute inset-0 z-40 glass-panel flex flex-col items-center justify-center p-6 animate-in fade-in zoom-in duration-300">
-              <h3 className="text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Choose a Word to Draw</h3>
-              <div className="flex flex-wrap gap-4 justify-center">
+            <div className="absolute inset-0 z-40 glass-panel flex flex-col items-center justify-center p-4 md:p-6 animate-in fade-in zoom-in duration-300">
+              <h3 className="text-xl md:text-3xl font-bold mb-4 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Choose a Word to Draw</h3>
+              <div className="flex flex-col md:flex-row flex-wrap gap-3 md:gap-4 justify-center">
                 {wordChoices.map((w, i) => (
                   <button 
                     key={i}
                     onClick={() => handleChooseWord(w)}
-                    className="px-8 py-4 bg-slate-800 hover:bg-slate-700 rounded-2xl text-xl font-bold border border-slate-600 hover:border-blue-500 transition-all shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1"
+                    className="px-4 py-2 md:px-8 md:py-4 bg-slate-800 hover:bg-slate-700 rounded-xl md:rounded-2xl text-base md:text-xl font-bold border border-slate-600 hover:border-blue-500 transition-all shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1"
                   >
                     {w}
                   </button>
@@ -294,9 +294,9 @@ export default function RoomPage() {
               {messages.map((m) => (
                 <motion.div 
                   key={m.id}
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`text-sm px-3 py-2 rounded-xl break-words ${
+                  className={`text-[10px] md:text-sm px-2 md:px-3 py-1.5 md:py-2 rounded-lg md:rounded-xl break-words ${
                     m.system 
                       ? m.text.includes('guessed') ? 'bg-green-500/20 text-green-300 font-bold border border-green-500/30' : 'text-slate-400 italic font-medium bg-slate-800/50 text-center' 
                       : 'bg-slate-800 text-slate-200 border border-slate-700'
