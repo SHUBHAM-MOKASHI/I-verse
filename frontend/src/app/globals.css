@@ -21,7 +21,8 @@ body {
   background-attachment: fixed;
   min-height: 100vh;
   min-height: 100dvh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Lock the game room height so mobile keyboard doesn't collapse the canvas */

@@ -72,12 +72,12 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-4">
+    <main className="min-h-screen flex p-4">
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="glass-panel w-full max-w-md p-8 relative overflow-hidden"
+        className="glass-panel w-full max-w-md p-8 relative overflow-hidden m-auto my-auto"
       >
         {/* Decorative blobs */}
         <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
