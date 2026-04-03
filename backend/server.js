@@ -118,10 +118,53 @@ const nextTurn = (roomId) => {
   
   room.status = 'choosing_word';
   const wordChoices = getRandomWords(room.settings.wordsCount || 3, room.usedWords);
+  room.wordChoices = wordChoices; // temporarily store it so the timer can pick one
   
   io.to(roomId).emit('room_updated', sanitizeRoom(room));
   io.to(drawer.id).emit('word_choices', wordChoices);
   io.to(roomId).emit('chat_message', { system: true, text: `${drawer.name} is choosing a word...` });
+
+  room.timer = 10;
+  io.to(roomId).emit('timer_update', room.timer);
+  
+  if (room.intervalId) clearInterval(room.intervalId);
+  room.intervalId = setInterval(() => {
+    room.timer--;
+    io.to(roomId).emit('timer_update', room.timer);
+    
+    if (room.timer <= 0) {
+      clearInterval(room.intervalId);
+      const randomWord = room.wordChoices[Math.floor(Math.random() * room.wordChoices.length)];
+      handleWordChosen(roomId, randomWord);
+    }
+  }, 1000);
+};
+
+const handleWordChosen = (roomId, word) => {
+  const room = rooms.get(roomId);
+  if (!room || room.status !== 'choosing_word') return;
+
+  if (room.intervalId) clearInterval(room.intervalId);
+
+  room.currentWord = word;
+  room.usedWords.push(word); // Store chosen word to prevent duplicate play
+  room.status = 'playing';
+  room.wordHints = getWordHint(word);
+  io.to(roomId).emit('room_updated', sanitizeRoom(room));
+  io.to(roomId).emit('clear_canvas');
+  io.to(roomId).emit('chat_message', { system: true, text: `The word has been chosen! Start guessing.` });
+  
+  startTimer(roomId, room.settings.drawTime, () => {
+    // Time up
+    io.to(roomId).emit('chat_message', { system: true, text: `Time's up! The word was ${room.currentWord}` });
+    room.status = 'round_end';
+    io.to(roomId).emit('room_updated', sanitizeRoom(room));
+    
+    setTimeout(() => {
+      room.drawerIndex++;
+      nextTurn(roomId);
+    }, 3000);
+  });
 };
 
 const startTimer = (roomId, time, onExpire) => {
@@ -240,28 +283,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('word_chosen', ({ roomId, word }) => {
-    const room = rooms.get(roomId);
-    if (room && room.status === 'choosing_word') {
-      room.currentWord = word;
-      room.usedWords.push(word); // Store chosen word to prevent duplicate play
-      room.status = 'playing';
-      room.wordHints = getWordHint(word);
-      io.to(roomId).emit('room_updated', sanitizeRoom(room));
-      io.to(roomId).emit('clear_canvas');
-      io.to(roomId).emit('chat_message', { system: true, text: `The word has been chosen! Start guessing.` });
-      
-      startTimer(roomId, room.settings.drawTime, () => {
-        // Time up
-        io.to(roomId).emit('chat_message', { system: true, text: `Time's up! The word was ${room.currentWord}` });
-        room.status = 'round_end';
-        io.to(roomId).emit('room_updated', sanitizeRoom(room));
-        
-        setTimeout(() => {
-          room.drawerIndex++;
-          nextTurn(roomId);
-        }, 3000);
-      });
-    }
+    handleWordChosen(roomId, word);
   });
 
   socket.on('draw_line', ({ roomId, line }) => {

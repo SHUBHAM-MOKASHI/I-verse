@@ -174,7 +174,7 @@ export default function RoomPage() {
             <span className="text-sm md:text-xl">{room.id}</span>
           </div>
           
-          {room.status === 'playing' && (
+          {(room.status === 'playing' || room.status === 'choosing_word') && (
             <div className="flex items-center gap-1 md:gap-2 bg-slate-800 px-2 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl border border-slate-700">
               <Timer className={`w-3.5 h-3.5 md:w-5 md:h-5 ${room.timer <= 10 ? 'text-red-500 animate-pulse' : 'text-slate-400'}`} />
               <span className={`font-bold text-sm md:text-xl ${room.timer <= 10 ? 'text-red-500' : 'text-slate-200'}`}>{room.timer}s</span>
